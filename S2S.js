@@ -1,8 +1,9 @@
 var https = require('https');
+var config = require('./config.js');
 
-const APP_ID = "";  // Fill in the appId
-const SERVER_NAME = ""; //Fill in the server name
-const SERVER_SECRET = ""; // Fill in the server secret
+const APP_ID = config.appId;  // Fill in the appId
+const SERVER_NAME = config.serverName;
+const SERVER_SECRET = config.serverSecret; // Fill in the server secret
 
 const SERVER_SESSION_EXPIRED = 40365;
 

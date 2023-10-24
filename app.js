@@ -1,8 +1,7 @@
 const PORT = 3000;
 const hostname = "0.0.0.0";
-const appId = "";
-const serverSecret = "";
-const serverName = "";
+
+var config = require('./config.js');
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express ();
@@ -21,7 +20,7 @@ app.post("/requestRoomServer", (req,res) => {
         connectInfo:{
             address: "127.0.0.1",
             ports: {
-                '7777/tcp':7777,
+                '7777/tcp':9000,
                 '7777/udp':9000
             }
         }
@@ -39,11 +38,11 @@ app.listen(PORT, hostname, () => {
 
 function startContainer(lobbyId){
     docker.createContainer({
-      Image: '', //Enter your Docker image name
+      Image: config.dockerImage,
       Env: [
-        `APP_ID=${appId}`,
-        `SERVER_NAME=${serverName}`,
-        `SERVER_SECRET=${serverSecret}`,
+        `APP_ID=${config.appId}`,
+        `SERVER_NAME=${config.serverName}`,
+        `SERVER_SECRET=${config.serverSecret}`,
         `LOBBY_ID=${lobbyId}`
       ],
       HostConfig: {
@@ -70,5 +69,4 @@ function startContainer(lobbyId){
         });
       }
     });
-
   }
