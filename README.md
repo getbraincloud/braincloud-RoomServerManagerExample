@@ -8,9 +8,11 @@ This tool is ideal for development use, it enables the developer to have immedia
 ## Setup
 
 First, you need to create a Room Server Manager type server in your apps dashboard in the brainCloud portal, then point the IP address of this room server manager to the IP of the machine that will run this Room Server Manager.
+
 Then you must create a new lobby type which uses this room server manager.
 
-Then, you need to have a Docker image of your server built, if you want to run your server through other means, there are many ways you can run and manage it through node.js
+You also need to have a Docker image of your server built, if you want to run your server through other means, there are many ways you can run and manage it through node.js
+
 Make sure to modify the config.js file to input your brainCloud credentials, as well as the image identifier for the Docker image you want to run.
 
 ## Running
