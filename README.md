@@ -1,6 +1,6 @@
-# Room Server Manager example for brainCloud
+# Room Server Dev Tool for brainCloud
 
-This is an example of how you can run your own room server manager to launch your own dedicated room servers for your brainCloud application/game. 
+This is a development tool for room servers and an example of how you can run your own room server manager to launch your own dedicated room servers for your brainCloud application/game. 
 In this example, it is assumed that you have a docker image of your server, this uses the Dockerode node.js package to create a container for your server image and run it locally.
 
 This tool is ideal for development use, it enables the developer to have immediate access to the room server logs and to debug and test any issues with room servers more easily.
@@ -17,6 +17,7 @@ Make sure to modify the config.js file to input your brainCloud credentials, as 
 
 ## Running
 
+Make sure all node packages are installed by running `npm install` in the projects folder
 To run, simply call `node app.js` in a command prompt in the projects folder.
 
 ## Testing
