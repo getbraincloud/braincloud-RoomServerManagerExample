@@ -19,10 +19,7 @@ app.post("/requestRoomServer", (req,res) => {
     const result = {
         connectInfo:{
             address: "127.0.0.1",
-            ports: {
-                '7777/tcp':9000,
-                '7777/udp':9000
-            }
+            ports: 7777
         }
     };
 
@@ -47,8 +44,8 @@ function startContainer(lobbyId){
       ],
       HostConfig: {
         PortBindings: {
-            "7777/udp": [{ HostPort: "9000"}],
-            "7777/tcp": [{ HostPort: "9000"}]
+            "7777/udp": [{ HostPort: "7777"}],
+            "7777/tcp": [{ HostPort: "7777"}]
         }
       },
       ExposedPorts: {
