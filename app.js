@@ -12,39 +12,41 @@ const docker = new Docker();
 const wss = require('ws');
 var S2S = require('./S2S.js');
 
+if(config.debug){
+  //if we are in debug mode run a websocket server to communicate with server being debugged
+  const wsServer = new wss.WebSocketServer({ port: 8888});
+  var currentConnection;
 
+  wsServer.on('connection', function connection(ws) {
+      ws.on('error', console.error);
 
-const wsServer = new wss.WebSocketServer({ port: 8888});
-var currentConnection;
+      ws.on('message', function message(data, isBinary) {
+          console.log("Received message: " + data);
+      });
 
-wsServer.on('connection', function connection(ws) {
-    ws.on('error', console.error);
+      ws.on('close', function onClose(code, reason){
+        currentConnection = null;
+        console.log("websocket connection closed");
+      });
 
-    ws.on('message', function message(data, isBinary) {
-        console.log("Received message: " + data);
-    });
+      console.log("Received websocket connection");
+      //send data on connection
+      var initS2Scommand = `{"op": "InitS2S", "data": { "appId":"${config.appId}", "serverName":"${config.serverName}", "serverSecret":"${config.serverSecret}"}}`;
+      console.log("Sending " + initS2Scommand);
+      ws.send(initS2Scommand, (err, obj) => {
+        console.log("ws send: " + err);
+        if(obj != null){
+          console.log("ws obj: " + obj);
+        }
+      });
 
-    ws.on('close', function onClose(code, reason){
-      currentConnection = null;
-      console.log("websocket connection closed");
-    });
+      currentConnection = ws;
+  });
 
-    console.log("Received websocket connection");
-    //send data on connection
-    var initS2Scommand = `{"op": "InitS2S", "data": { "appId":"${config.appId}", "serverName":"${config.serverName}", "serverSecret":"${config.serverSecret}"}}`;
-    console.log("Sending " + initS2Scommand);
-    ws.send(initS2Scommand, (err, obj) => {
-      console.log("ws send: " + err);
-      if(obj != null){
-        console.log("ws obj: " + obj);
-      }
-    });
+  function assignLobbyToServer(lobbyId) {
+    currentConnection.send(`{"op": "AssignLobby", "data": { "lobbyId": "${lobbyId}"}}`);
+  }
 
-    currentConnection = ws;
-});
-
-function assignLobbyToServer(lobbyId) {
-  currentConnection.send(`{"op": "AssignLobby", "data": { "lobbyId": "${lobbyId}"}}`);
 }
 
 app.use(bodyParser.json());
