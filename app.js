@@ -63,7 +63,8 @@ app.post("/requestRoomServer", (req,res) => {
         connectInfo:{
             address: "127.0.0.1",
             ports: {
-              "7777/udp": port
+              "7777/udp": port,
+			  "7777/tcp": port
             }
         }
     };
